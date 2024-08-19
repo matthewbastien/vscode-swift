@@ -1,0 +1,248 @@
+/*===----------------------------------------------------------------------===//
+//
+// This source file is part of the VS Code Swift open source project
+//
+// Copyright (c) 2024 the VS Code Swift project authors
+// Licensed under Apache License v2.0
+//
+// See LICENSE.txt for license information
+// See CONTRIBUTORS.txt for the list of VS Code Swift project authors
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+//===----------------------------------------------------------------------===*/
+
+html.vscode-swift-docc-cursor-ew-resize, html.vscode-swift-docc-cursor-ew-resize * {
+    cursor: ew-resize
+}
+
+.vscode-swift-docc-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 45px;
+    width: 100%;
+    z-index: 100;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--vscode-editor-background);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--vscode-settings-sashBorder);
+
+    .codicon {
+        padding: 5px;
+        font-size: 30px;
+        font-weight: bold;
+
+        &:hover {
+            cursor: pointer;
+            color: var(--vscode-list-hoverForeground);
+            background-color: var(--vscode-list-hoverBackground);
+        }
+    }
+}
+
+.vscode-swift-docc-header-title {
+    padding: 10px;
+    font-size: 30px;
+}
+
+#app {
+    margin-top: 65px;
+}
+
+.vscode-swift-docc-sash {
+    position: fixed;
+    top: 65px;
+    left: 298px;
+    width: 4px;
+    height: calc(100% - 65px);
+    cursor: ew-resize;
+    z-index: 100;
+    background-color: var(--vscode-sash-hoverBorder);
+    opacity: 0;
+
+    &:hover, &.hover {
+        opacity: 1.0;
+        transition-property: opacity;
+        transition-duration: 250ms;
+        transition-delay: 500ms;
+    }
+}
+
+.vscode-swift-docc-navigator {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    height: calc(100% - 65px);
+    width: 300px;
+    margin-top: 65px;
+    z-index: 99;
+    overflow-x: hidden;
+    white-space: nowrap;
+    background-color: var(--vscode-editor-background);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color: var(--vscode-settings-sashBorder);
+}
+
+.vscode-swift-docc-navigator-item-group-marker {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 3px 0 3px 0;
+    font-weight: bold;
+}
+
+.vscode-swift-docc-navigator-item {
+    padding: 3px 0 3px 0;
+
+    .vscode-swift-docc-navigator-item-children {
+        overflow: hidden;
+        padding-left: 15px;
+        transition: max-height 0.15s ease-in;
+    }
+
+    .codicon {
+        margin-right: 5px;
+    }
+
+    /*
+    * Symbol Icon Colours
+    * https://code.visualstudio.com/api/references/theme-color#symbol-icons-colors
+    */
+    .codicon-symbol-array {
+        color: var(--vscode-symbolIcon-arrayForeground);
+    }
+    .codicon-symbol-boolean {
+        color: var(--vscode-symbolIcon-booleanForeground);
+    }
+    .codicon-symbol-class {
+        color: var(--vscode-symbolIcon-classForeground);
+    }
+    .codicon-symbol-color {
+        color: var(--vscode-symbolIcon-colorForeground);
+    }
+    .codicon-symbol-constant {
+        color: var(--vscode-symbolIcon-constantForeground);
+    }
+    .codicon-symbol-constructor {
+        color: var(--vscode-symbolIcon-constructorForeground);
+    }
+    .codicon-symbol-enum {
+        color: var(--vscode-symbolIcon-enumeratorForeground);
+    }
+    .codicon-symbol-enum-member {
+        color: var(--vscode-symbolIcon-enumeratorMemberForeground);
+    }
+    .codicon-symbol-event {
+        color: var(--vscode-symbolIcon-eventForeground);
+    }
+    .codicon-symbol-field {
+        color: var(--vscode-symbolIcon-fieldForeground);
+    }
+    .codicon-symbol-file {
+        color: var(--vscode-symbolIcon-fileForeground);
+    }
+    .codicon-symbol-folder {
+        color: var(--vscode-symbolIcon-folderForeground);
+    }
+    .codicon-symbol-function {
+        color: var(--vscode-symbolIcon-functionForeground);
+    }
+    .codicon-symbol-key {
+        color: var(--vscode-symbolIcon-keyForeground);
+    }
+    .codicon-symbol-keyword {
+        color: var(--vscode-symbolIcon-keywordForeground);
+    }
+    .codicon-symbol-method {
+        color: var(--vscode-symbolIcon-methodForeground);
+    }
+    .codicon-symbol-module {
+        color: var(--vscode-symbolIcon-moduleForeground);
+    }
+    .codicon-symbol-namespace {
+        color: var(--vscode-symbolIcon-namespaceForeground);
+    }
+    .codicon-symbol-null {
+        color: var(--vscode-symbolIcon-nullForeground);
+    }
+    .codicon-symbol-numeric {
+        color: var(--vscode-symbolIcon-numberForeground);
+    }
+    .codicon-symbol-object {
+        color: var(--vscode-symbolIcon-objectForeground);
+    }
+    .codicon-symbol-operator {
+        color: var(--vscode-symbolIcon-operatorForeground);
+    }
+    .codicon-symbol-package {
+        color: var(--vscode-symbolIcon-packageForeground);
+    }
+    .codicon-symbol-property {
+        color: var(--vscode-symbolIcon-propertyForeground);
+    }
+    .codicon-symbol-reference {
+        color: var(--vscode-symbolIcon-referenceForeground);
+    }
+    .codicon-symbol-snippet {
+        color: var(--vscode-symbolIcon-snippetForeground);
+    }
+    .codicon-symbol-string {
+        color: var(--vscode-symbolIcon-stringForeground);
+    }
+    .codicon-symbol-structure {
+        color: var(--vscode-symbolIcon-structForeground);
+    }
+    .codicon-symbol-text {
+        color: var(--vscode-symbolIcon-textForeground);
+    }
+    .codicon-symbol-parameter {
+        color: var(--vscode-symbolIcon-typeParameterForeground);
+    }
+    .codicon-symbol-unit {
+        color: var(--vscode-symbolIcon-unitForeground);
+    }
+    .codicon-symbol-variable {
+        color: var(--vscode-symbolIcon-variableForeground);
+    }
+}
+
+.vscode-swift-docc-navigator-item-title {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+
+    &:hover {
+        cursor: pointer;
+        color: var(--vscode-list-hoverForeground);
+        background-color: var(--vscode-list-hoverBackground);
+    }
+
+    &.selected {
+        color: var(--vscode-list-activeSelectionForeground);
+        background-color: var(--vscode-list-activeSelectionBackground);
+    }
+}
+
+.vscode-swift-docc-navigator-item-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+}
+
+.vscode-swift-docc-navigator-item-chevron {
+    transition: transform 0.15s ease-in;
+
+    &.expanded {
+        transform: rotate(90deg);
+    }
+}

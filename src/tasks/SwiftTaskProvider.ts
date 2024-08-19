@@ -37,6 +37,7 @@ import { resolveTaskCwd } from "../utilities/tasks";
 // Interface class for defining task configuration
 interface TaskConfig {
     cwd: vscode.Uri;
+    env?: { [key: string]: string };
     scope: vscode.TaskScope | vscode.WorkspaceFolder;
     group?: vscode.TaskGroup;
     presentationOptions?: vscode.TaskPresentationOptions;
@@ -339,7 +340,12 @@ export function createSwiftTask(
     } else {
         cwd = config.cwd.fsPath;
     }*/
-    const env = { ...configuration.swiftEnvironmentVariables, ...swiftRuntimeEnv(), ...cmdEnv };
+    const env = {
+        ...configuration.swiftEnvironmentVariables,
+        ...swiftRuntimeEnv(),
+        ...cmdEnv,
+        ...config.env,
+    };
     const presentation = config?.presentationOptions ?? {};
     const task = new vscode.Task(
         {

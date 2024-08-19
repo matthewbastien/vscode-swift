@@ -80,6 +80,11 @@
         "category": "Swift"
       },
       {
+        "command": "swift.buildDocumentation",
+        "title": "Build Documentation...",
+        "category": "Swift"
+      },
+      {
         "command": "swift.updateDependencies",
         "title": "Update Package Dependencies",
         "icon": "$(cloud-download)",
@@ -624,6 +629,10 @@
         {
           "command": "swift.createNewProject",
           "when": "!swift.isActivated || swift.createNewProjectAvailable"
+        },
+        {
+          "command": "swift.buildDocumentation",
+          "when": "swift.hasPackage"
         },
         {
           "command": "swift.updateDependencies",
@@ -1227,7 +1236,9 @@
     "vadimcn.vscode-lldb"
   ],
   "scripts": {
-    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "vscode:prepublish": "npm run esbuild-base -- --minify && npm run esbuild-documentation-base -- --minify",
+    "esbuild-documentation": "node ./src/documentation/webview/esbuild.js",
+    "esbuild-documentation-watch": "npm run esbuild-documentation -- --watch",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node --target=node18",
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
@@ -1249,7 +1260,9 @@
   },
   "devDependencies": {
     "@types/glob": "^7.1.6",
+    "@types/jquery": "^3.5.30",
     "@types/lcov-parse": "^1.0.2",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/mocha": "^10.0.7",
     "@types/node": "^18.19.39",
     "@types/plist": "^3.0.5",
@@ -1257,18 +1270,24 @@
     "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "@typescript-eslint/parser": "^7.15.0",
+    "@vscode/codicons": "^0.0.36",
     "@vscode/test-cli": "^0.0.9",
     "@vscode/test-electron": "^2.4.1",
     "@vscode/vsce": "^2.29.0",
     "esbuild": "^0.23.0",
+    "esbuild-plugin-inline-import": "^1.1.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "jquery": "^3.7.1",
+    "lodash.debounce": "^4.0.8",
     "mocha": "^10.6.0",
     "node-pty": "^1.0.0",
     "prettier": "3.3.2",
     "strip-ansi": "^6.0.1",
     "ts-mockito": "^2.6.1",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "vue-router": "^3.6.5",
+    "yargs": "^17.7.2"
   },
   "dependencies": {
     "lcov-parse": "^1.0.0",
