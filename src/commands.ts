@@ -105,9 +105,10 @@ export async function buildDocumentation(
     context: vscode.ExtensionContext,
     folderContext: FolderContext
 ) {
-    const buildPath = path.join(folderContext.folder.fsPath, ".build", "vscode", "documentation");
-    await fs.mkdir(buildPath, { recursive: true });
-    const archivePath = path.join(buildPath, "SlothCreator.doccarchive");
+    const buildPath = path.join(folderContext.folder.fsPath, ".build", "vscode");
+    const outputPath = path.join(buildPath, "documentation");
+    await fs.mkdir(outputPath, { recursive: true });
+    const archivePath = path.join(outputPath, "SlothCreator.doccarchive");
     const task = createSwiftTask(
         [
             "package",
@@ -122,7 +123,7 @@ export async function buildDocumentation(
         {
             cwd: folderContext.folder,
             env: {
-                DOCC_HTML_DIR: "/Users/matthew_bastien/Documents/swiftlang/swift-docc-render/dist",
+                DOCC_HTML_DIR: path.join(buildPath, "render"),
             },
             scope: folderContext.workspaceFolder,
             prefix: folderContext.name,
