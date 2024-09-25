@@ -39,7 +39,7 @@ import { runPluginTask } from "./commands/runPluginTask";
 import { runTestMultipleTimes } from "./commands/testMultipleTimes";
 import { newSwiftFile } from "./commands/newFile";
 import { runAllTestsParallel } from "./commands/runParallelTests";
-import { buildDocumentation } from "./commands/buildDocumentation";
+import { previewDocumentation } from "./commands/previewDocumentation";
 
 /**
  * References:
@@ -144,11 +144,11 @@ export function register(
             "swift.runAllTestsParallel",
             async () => await runAllTestsParallel(ctx)
         ),
-        vscode.commands.registerCommand("swift.buildDocumentation", () => {
+        vscode.commands.registerCommand("swift.previewDocumentation", () => {
             if (!ctx.currentFolder) {
                 return;
             }
-            buildDocumentation(context, ctx.currentFolder);
+            previewDocumentation(context, ctx.currentFolder);
         }),
     ];
 }

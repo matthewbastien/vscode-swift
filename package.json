@@ -80,8 +80,8 @@
         "category": "Swift"
       },
       {
-        "command": "swift.buildDocumentation",
-        "title": "Build Documentation...",
+        "command": "swift.previewDocumentation",
+        "title": "Preview Documentation...",
         "category": "Swift"
       },
       {
@@ -666,7 +666,7 @@
           "when": "!swift.isActivated || swift.createNewProjectAvailable"
         },
         {
-          "command": "swift.buildDocumentation",
+          "command": "swift.previewDocumentation",
           "when": "swift.hasPackage"
         },
         {

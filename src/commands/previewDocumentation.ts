@@ -19,7 +19,7 @@ import { createSwiftTask } from "../tasks/SwiftTaskProvider";
 import { executeTaskWithUI, updateAfterError } from "./utilities";
 import { ContentResponse, IndexResponse, WebviewEvent } from "../documentation/WebviewEvent";
 
-export async function buildDocumentation(
+export async function previewDocumentation(
     context: vscode.ExtensionContext,
     folderContext: FolderContext
 ) {
@@ -49,9 +49,12 @@ export async function buildDocumentation(
         },
         folderContext.workspaceContext.toolchain
     );
-    await executeTaskWithUI(task, "Building Documentation", folderContext).then(result => {
-        updateAfterError(result, folderContext);
-    });
+    const succeeded = await executeTaskWithUI(task, "Building Documentation", folderContext);
+    updateAfterError(succeeded, folderContext);
+    if (!succeeded) {
+        vscode.window.showErrorMessage("Failed to build documentation for SlothCreator");
+        return;
+    }
 
     const archiveURI = vscode.Uri.file(archivePath);
     const panel = vscode.window.createWebviewPanel(
