@@ -30,6 +30,7 @@ import { LSPLogger, LSPOutputChannel } from "./LSPOutputChannel";
 import { SwiftOutputChannel } from "../ui/SwiftOutputChannel";
 import { promptForDiagnostics } from "../commands/captureDiagnostics";
 import { activateGetReferenceDocument } from "./getReferenceDocument";
+import { uriConverters } from "./uriConverters";
 
 interface SourceKitLogMessageParams extends langclient.LogMessageParams {
     logName?: string;
@@ -544,7 +545,7 @@ export class LanguageClientManager {
                     const document = uri as vscode.TextDocument;
                     this.workspaceContext.diagnostics.handleDiagnostics(
                         document.uri ?? uri,
-                        DiagnosticsManager.sourcekit,
+                        DiagnosticsManager.isSourcekit,
                         result?.items ?? []
                     );
                     return undefined;
@@ -552,7 +553,7 @@ export class LanguageClientManager {
                 handleDiagnostics: (uri, diagnostics) => {
                     this.workspaceContext.diagnostics.handleDiagnostics(
                         uri,
-                        DiagnosticsManager.sourcekit,
+                        DiagnosticsManager.isSourcekit,
                         diagnostics
                     );
                 },
@@ -574,6 +575,7 @@ export class LanguageClientManager {
                     };
                 })(),
             },
+            uriConverters,
             errorHandler,
             // Avoid attempting to reinitialize multiple times. If we fail to initialize
             // we aren't doing anything different the second time and so will fail again.

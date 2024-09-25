@@ -47,7 +47,7 @@ export interface LSPConfiguration {
 
 /** debugger configuration */
 export interface DebuggerConfiguration {
-    /** Are we using debug adapter provided with Toolchain */
+    /** Whether or not to use CodeLLDB for debugging instead of lldb-dap */
     readonly useDebugAdapterFromToolchain: boolean;
     /** Return path to debug adapter */
     readonly customDebugAdapterPath: string;
@@ -57,6 +57,8 @@ export interface DebuggerConfiguration {
 export interface FolderConfiguration {
     /** Environment variables to set when running tests */
     readonly testEnvironmentVariables: { [key: string]: string };
+    /** Extra arguments to set when building tests */
+    readonly additionalTestArguments: string[];
     /** search sub-folder of workspace folder for Swift Packages */
     readonly searchSubfoldersForPackages: boolean;
     /** auto-generate launch.json configurations */
@@ -119,6 +121,12 @@ const configuration = {
                     .getConfiguration("swift", workspaceFolder)
                     .get<{ [key: string]: string }>("testEnvironmentVariables", {});
             },
+            /** Extra arguments to pass to swift test and swift build when running and debugging tests. */
+            get additionalTestArguments(): string[] {
+                return vscode.workspace
+                    .getConfiguration("swift", workspaceFolder)
+                    .get<string[]>("additionalTestArguments", []);
+            },
             /** auto-generate launch.json configurations */
             get autoGenerateLaunchConfigurations(): boolean {
                 return vscode.workspace
@@ -143,8 +151,16 @@ const configuration = {
     /** debugger configuration */
     get debugger(): DebuggerConfiguration {
         return {
-            /** Should we use the debug adapter included in the Toolchain or CodeLLDB */
             get useDebugAdapterFromToolchain(): boolean {
+                // Enabled by default only when we're on Windows arm64 since CodeLLDB does not support
+                // this platform and gives an awful error message.
+                if (process.platform === "win32" && process.arch === "arm64") {
+                    // We need to use inspect to find out if the value is explicitly set.
+                    const inspect = vscode.workspace
+                        .getConfiguration("swift.debugger")
+                        .inspect<boolean>("useDebugAdapterFromToolchain");
+                    return inspect?.workspaceValue ?? inspect?.globalValue ?? true;
+                }
                 return vscode.workspace
                     .getConfiguration("swift.debugger")
                     .get<boolean>("useDebugAdapterFromToolchain", false);

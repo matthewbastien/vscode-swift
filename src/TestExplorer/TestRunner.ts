@@ -19,7 +19,7 @@ import * as os from "os";
 import * as asyncfs from "fs/promises";
 import { FolderContext } from "../FolderContext";
 import { execFile, getErrorDescription } from "../utilities/utilities";
-import { createSwiftTask, getBuildAllTask } from "../tasks/SwiftTaskProvider";
+import { createSwiftTask } from "../tasks/SwiftTaskProvider";
 import configuration from "../configuration";
 import { WorkspaceContext } from "../WorkspaceContext";
 import {
@@ -36,14 +36,25 @@ import { TestRunArguments } from "./TestRunArguments";
 import { TemporaryFolder } from "../utilities/tempFolder";
 import { TestClass, runnableTag, upsertTestItem } from "./TestDiscovery";
 import { TestCoverage } from "../coverage/LcovResults";
-import { TestingDebugConfigurationFactory } from "../debugger/buildConfig";
-import { SwiftExecution } from "../tasks/SwiftExecution";
+import { BuildConfigurationFactory, TestingConfigurationFactory } from "../debugger/buildConfig";
 import { TestKind, isDebugging, isRelease } from "./TestKind";
 import { reduceTestItemChildren } from "./TestUtils";
 
 export enum TestLibrary {
     xctest = "XCTest",
     swiftTesting = "swift-testing",
+}
+
+export interface TestRunState {
+    failed: {
+        test: vscode.TestItem;
+        message: vscode.TestMessage | readonly vscode.TestMessage[];
+    }[];
+    passed: vscode.TestItem[];
+    skipped: vscode.TestItem[];
+    errored: vscode.TestItem[];
+    unknown: number;
+    output: string[];
 }
 
 export class TestRunProxy {
@@ -61,17 +72,14 @@ export class TestRunProxy {
     // Allows for introspection on the state of TestItems after a test run.
     public runState = TestRunProxy.initialTestRunState();
 
-    private static initialTestRunState() {
+    public static initialTestRunState(): TestRunState {
         return {
-            failed: [] as {
-                test: vscode.TestItem;
-                message: vscode.TestMessage | readonly vscode.TestMessage[];
-            }[],
-            passed: [] as vscode.TestItem[],
-            skipped: [] as vscode.TestItem[],
-            errored: [] as vscode.TestItem[],
+            failed: [],
+            passed: [],
+            skipped: [],
+            errored: [],
             unknown: 0,
-            output: [] as string[],
+            output: [],
         };
     }
 
@@ -202,6 +210,11 @@ export class TestRunProxy {
     }
 
     public async end() {
+        // If the test run never started (typically due to a build error)
+        // start it to flush any queued output, and then immediately end it.
+        if (!this.runStarted) {
+            this.testRunStarted();
+        }
         this.testRun?.end();
         this.testRunCompleteEmitter.fire();
     }
@@ -460,7 +473,10 @@ export class TestRunner {
     }
 
     /** Run test session without attaching to a debugger */
-    async runSession(token: vscode.CancellationToken, runState: TestRunnerTestRunState) {
+    async runSession(
+        token: vscode.CancellationToken,
+        runState: TestRunnerTestRunState
+    ): Promise<TestRunState> {
         // Run swift-testing first, then XCTest.
         // swift-testing being parallel by default should help these run faster.
         if (this.testArgs.hasSwiftTestingTests) {
@@ -473,7 +489,7 @@ export class TestRunner {
                     await execFile("mkfifo", [fifoPipePath], undefined, this.folderContext);
                 }
 
-                const testBuildConfig = await TestingDebugConfigurationFactory.swiftTestingConfig(
+                const testBuildConfig = await TestingConfigurationFactory.swiftTestingConfig(
                     this.folderContext,
                     fifoPipePath,
                     this.testKind,
@@ -482,13 +498,13 @@ export class TestRunner {
                 );
 
                 if (testBuildConfig === null) {
-                    return;
+                    return this.testRun.runState;
                 }
 
                 const outputStream = this.testOutputWritable(TestLibrary.swiftTesting, runState);
                 if (token.isCancellationRequested) {
                     outputStream.end();
-                    return;
+                    return this.testRun.runState;
                 }
 
                 // Watch the pipe for JSONL output and parse the events into test explorer updates.
@@ -507,20 +523,20 @@ export class TestRunner {
         }
 
         if (this.testArgs.hasXCTests) {
-            const testBuildConfig = await TestingDebugConfigurationFactory.xcTestConfig(
+            const testBuildConfig = await TestingConfigurationFactory.xcTestConfig(
                 this.folderContext,
                 this.testKind,
                 this.testArgs.xcTestArgs,
                 true
             );
             if (testBuildConfig === null) {
-                return;
+                return this.testRun.runState;
             }
 
             const parsedOutputStream = this.testOutputWritable(TestLibrary.xctest, runState);
             if (token.isCancellationRequested) {
                 parsedOutputStream.end();
-                return;
+                return this.testRun.runState;
             }
 
             // XCTestRuns are started immediately
@@ -535,6 +551,8 @@ export class TestRunner {
                 TestLibrary.xctest
             );
         }
+
+        return this.testRun.runState;
     }
 
     private async launchTests(
@@ -714,34 +732,31 @@ export class TestRunner {
 
     /** Run test session inside debugger */
     async debugSession(token: vscode.CancellationToken, runState: TestRunnerTestRunState) {
-        const buildAllTask = await getBuildAllTask(this.folderContext, isRelease(this.testKind));
-        if (!buildAllTask) {
-            return;
+        // Perform a build all first to produce the binaries we'll run later.
+        let buildOutput = "";
+        try {
+            await this.runStandardSession(
+                token,
+                // discard the output as we dont want to associate it with the test run.
+                new stream.Writable({
+                    write: (chunk, encoding, next) => {
+                        buildOutput += chunk.toString();
+                        next();
+                    },
+                }),
+                BuildConfigurationFactory.buildAll(
+                    this.folderContext,
+                    true,
+                    isRelease(this.testKind)
+                ),
+                this.testKind
+            );
+        } catch (buildExitCode) {
+            runState.recordOutput(undefined, buildOutput);
+            throw new Error(`Build failed with exit code ${buildExitCode}`);
         }
 
         const subscriptions: vscode.Disposable[] = [];
-        let buildExitCode = 0;
-        const buildTask = vscode.tasks.onDidStartTask(e => {
-            if (e.execution.task.name === buildAllTask.name) {
-                const exec = e.execution.task.execution as SwiftExecution;
-                const didCloseBuildTask = exec.onDidClose(exitCode => {
-                    buildExitCode = exitCode ?? 0;
-                });
-                subscriptions.push(didCloseBuildTask);
-            }
-        });
-        subscriptions.push(buildTask);
-
-        // Perform a build all before the tests are run. We want to avoid the "Debug Anyway" dialog
-        // since choosing that with no prior build, when debugging swift-testing tests, will cause
-        // the extension to start listening to the fifo pipe when no results will be produced,
-        // hanging the test run.
-        await this.folderContext.taskQueue.queueOperation(new TaskOperation(buildAllTask));
-
-        if (buildExitCode !== 0) {
-            throw new Error(`${buildAllTask.name} failed with exit code ${buildExitCode}`);
-        }
-
         const buildConfigs: Array<vscode.DebugConfiguration | undefined> = [];
         const fifoPipePath = this.generateFifoPipePath();
 
@@ -753,14 +768,13 @@ export class TestRunner {
                     await execFile("mkfifo", [fifoPipePath], undefined, this.folderContext);
                 }
 
-                const swiftTestBuildConfig =
-                    await TestingDebugConfigurationFactory.swiftTestingConfig(
-                        this.folderContext,
-                        fifoPipePath,
-                        this.testKind,
-                        this.testArgs.swiftTestArgs,
-                        true
-                    );
+                const swiftTestBuildConfig = await TestingConfigurationFactory.swiftTestingConfig(
+                    this.folderContext,
+                    fifoPipePath,
+                    this.testKind,
+                    this.testArgs.swiftTestArgs,
+                    true
+                );
 
                 if (swiftTestBuildConfig !== null) {
                     swiftTestBuildConfig.testType = TestLibrary.swiftTesting;
@@ -788,7 +802,7 @@ export class TestRunner {
 
             // create launch config for testing
             if (this.testArgs.hasXCTests) {
-                const xcTestBuildConfig = await TestingDebugConfigurationFactory.xcTestConfig(
+                const xcTestBuildConfig = await TestingConfigurationFactory.xcTestConfig(
                     this.folderContext,
                     this.testKind,
                     this.testArgs.xcTestArgs,
@@ -1193,12 +1207,40 @@ export class TestRunnerTestRunState implements ITestRunState {
         // Nothing to do here
     }
     // passed suite
-    passedSuite() {
-        // Nothing to do here
+    passedSuite(name: string) {
+        // Regular runs don't provide the full suite name (Target.Suite)
+        // in the output, so reference the last passing/failing test item
+        // and derive the suite from that.
+
+        // However, when running a parallel test run the XUnit XML output
+        // provides the full suite name, and the `lastTestItem` set is not
+        // guarenteed to be in this suite due to the parallel nature of the run.
+
+        // If we can look the suite up by name then we're doing a parallel run
+        // and can mark it as passed, otherwise derive the suite from the last
+        // completed test item.
+        const suiteIndex = this.testRun.getTestIndex(name);
+        if (suiteIndex !== -1) {
+            this.testRun.passed(this.testRun.testItems[suiteIndex]);
+        } else {
+            const lastClassTestItem = this.lastTestItem?.parent;
+            if (lastClassTestItem && lastClassTestItem.id.endsWith(`.${name}`)) {
+                this.testRun.passed(lastClassTestItem);
+            }
+        }
     }
     // failed suite
-    failedSuite() {
-        // Nothing to do here
+    failedSuite(name: string) {
+        // See comment in `passedSuite` for more context.
+        const suiteIndex = this.testRun.getTestIndex(name);
+        if (suiteIndex !== -1) {
+            this.testRun.failed(this.testRun.testItems[suiteIndex], []);
+        } else {
+            const lastClassTestItem = this.lastTestItem?.parent;
+            if (lastClassTestItem && lastClassTestItem.id.endsWith(`.${name}`)) {
+                this.testRun.failed(lastClassTestItem, []);
+            }
+        }
     }
 
     recordOutput(index: number | undefined, output: string): void {
