@@ -12,14 +12,14 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
+import assert from "assert";
 import * as path from "path";
 import {
     isPathInsidePath,
     expandFilePathTilda,
     fileExists,
     pathExists,
-} from "../../../src/utilities/filesystem";
+} from "../../../src/extension/utilities/filesystem";
 
 suite("File System Utilities Test Suite", () => {
     test("isPathInsidePath", () => {

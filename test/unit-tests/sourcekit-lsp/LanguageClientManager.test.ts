@@ -12,14 +12,14 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
+import assert from "assert";
 import * as vscode from "vscode";
-import { FolderEvent, WorkspaceContext } from "../../../src/WorkspaceContext";
+import { FolderEvent, WorkspaceContext } from "../../../src/extension/WorkspaceContext";
 import {
     LanguageClientError,
     LanguageClientManager,
     SourceKitLSPErrorHandler,
-} from "../../../src/sourcekit-lsp/LanguageClientManager";
+} from "../../../src/extension/sourcekit-lsp/LanguageClientManager";
 import {
     anyFunction,
     anything,
@@ -30,14 +30,14 @@ import {
     anyString,
     capture,
 } from "ts-mockito";
-import { Version } from "../../../src/utilities/version";
-import { SwiftToolchain } from "../../../src/toolchain/toolchain";
-import { BuildFlags } from "../../../src/toolchain/BuildFlags";
-import configuration from "../../../src/configuration";
-import { SwiftOutputChannel } from "../../../src/ui/SwiftOutputChannel";
+import { Version } from "../../../src/extension/utilities/version";
+import { SwiftToolchain } from "../../../src/extension/toolchain/toolchain";
+import { BuildFlags } from "../../../src/extension/toolchain/BuildFlags";
+import configuration from "../../../src/extension/configuration";
+import { SwiftOutputChannel } from "../../../src/extension/ui/SwiftOutputChannel";
 import { eventListenerMock, mockValue, mockConstructor, mockNamespace } from "../MockUtils";
 import * as languageClient from "vscode-languageclient/node";
-import { FolderContext } from "../../../src/FolderContext";
+import { FolderContext } from "../../../src/extension/FolderContext";
 
 suite("LanguageClientManager Suite", () => {
     let workspace: WorkspaceContext;

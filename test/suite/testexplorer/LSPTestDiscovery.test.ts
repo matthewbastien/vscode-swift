@@ -12,21 +12,21 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
+import assert from "assert";
 import * as vscode from "vscode";
 import * as ls from "vscode-languageserver-protocol";
 import * as p2c from "vscode-languageclient/lib/common/protocolConverter";
 import { beforeEach } from "mocha";
 import { InitializeResult, RequestType } from "vscode-languageclient";
-import { LSPTestDiscovery } from "../../../src/TestExplorer/LSPTestDiscovery";
-import { SwiftPackage, Target, TargetType } from "../../../src/SwiftPackage";
-import { TestClass } from "../../../src/TestExplorer/TestDiscovery";
-import { SwiftToolchain } from "../../../src/toolchain/toolchain";
+import { LSPTestDiscovery } from "../../../src/extension/TestExplorer/LSPTestDiscovery";
+import { SwiftPackage, Target, TargetType } from "../../../src/extension/SwiftPackage";
+import { TestClass } from "../../../src/extension/TestExplorer/TestDiscovery";
+import { SwiftToolchain } from "../../../src/extension/toolchain/toolchain";
 import {
     LSPTestItem,
     textDocumentTestsRequest,
     workspaceTestsRequest,
-} from "../../../src/sourcekit-lsp/lspExtensions";
+} from "../../../src/extension/sourcekit-lsp/lspExtensions";
 
 class TestLanguageClient {
     private responses = new Map<string, unknown>();

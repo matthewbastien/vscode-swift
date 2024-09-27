@@ -41,18 +41,18 @@ export async function previewDocumentation(
         {
             cwd: folderContext.folder,
             env: {
-                DOCC_HTML_DIR: path.join(buildPath, "render"),
+                DOCC_HTML_DIR: context.asAbsolutePath("assets/swift-docc-render"),
             },
             scope: folderContext.workspaceFolder,
             prefix: folderContext.name,
-            presentationOptions: { reveal: vscode.TaskRevealKind.Silent },
+            presentationOptions: { reveal: vscode.TaskRevealKind.Always },
         },
         folderContext.workspaceContext.toolchain
     );
     const succeeded = await executeTaskWithUI(task, "Building Documentation", folderContext);
     updateAfterError(succeeded, folderContext);
     if (!succeeded) {
-        vscode.window.showErrorMessage("Failed to build documentation for SlothCreator");
+        vscode.window.showErrorMessage("Failed to build documentation for SlothCreator via DocC");
         return;
     }
 

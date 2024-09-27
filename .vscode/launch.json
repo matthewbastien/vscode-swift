@@ -49,6 +49,14 @@
 				"${workspaceFolder}/out/**/*.js"
 			],
 			"preLaunchTask": "compile-tests"
+		},
+		{
+			"name": "Active TypeScript File",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceFolder}/node_modules/.bin/ts-node",
+			"args": ["${file}"],
+			"cwd": "${workspaceFolder}",
 		}
 	]
 }

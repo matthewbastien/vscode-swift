@@ -13,12 +13,12 @@
 //===----------------------------------------------------------------------===//
 
 import * as vscode from "vscode";
-import * as assert from "assert";
+import assert from "assert";
 import { anything, when } from "ts-mockito";
-import { runTestMultipleTimes } from "../../../src/commands/testMultipleTimes";
+import { runTestMultipleTimes } from "../../../src/extension/commands/testMultipleTimes";
 import { mockNamespace } from "../../unit-tests/MockUtils";
-import { FolderContext } from "../../../src/FolderContext";
-import { TestRunProxy } from "../../../src/TestExplorer/TestRunner";
+import { FolderContext } from "../../../src/extension/FolderContext";
+import { TestRunProxy } from "../../../src/extension/TestExplorer/TestRunner";
 import { folderContextPromise } from "../extension.test";
 
 suite("Test Multiple Times Command Test Suite", () => {

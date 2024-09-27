@@ -12,8 +12,18 @@
 //
 //===----------------------------------------------------------------------===//
 
-/** Import a file as a string */
-declare module "inline:*" {
-    const contents: string;
-    export = contents;
-}
+import { join } from "path";
+import { repositoryRoot } from "./lib/utilities";
+import { runESBuild } from "./lib/esbuild";
+
+runESBuild({
+    entryPoints: [join(repositoryRoot, "src", "extension", "index.ts")],
+    outfile: join(repositoryRoot, "dist", "extension.js"),
+    platform: "node",
+    external: ["vscode"],
+    format: "cjs",
+    target: "node18",
+}).catch(error => {
+    console.error(error);
+    process.exit(1);
+});

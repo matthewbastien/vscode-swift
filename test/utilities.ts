@@ -14,7 +14,7 @@
 
 import * as vscode from "vscode";
 import { SwiftTaskFixture } from "./fixtures";
-import { SwiftTask } from "../src/tasks/SwiftTaskProvider";
+import { SwiftTask } from "../src/extension/tasks/SwiftTaskProvider";
 
 /**
  * Executes a {@link SwiftTask}, accumulates output, and

@@ -13,7 +13,7 @@
 //===----------------------------------------------------------------------===//
 import { anyString, anything, verify, when } from "ts-mockito";
 import { equal } from "assert";
-import { showReloadExtensionNotification } from "../../../src/ui/ReloadExtension";
+import { showReloadExtensionNotification } from "../../../src/extension/ui/ReloadExtension";
 import * as vscode from "vscode";
 import { mockNamespace } from "../MockUtils";
 

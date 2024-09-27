@@ -12,9 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
+import assert from "assert";
 import * as vscode from "vscode";
-import { uriConverters } from "../../../src/sourcekit-lsp/uriConverters";
+import { uriConverters } from "../../../src/extension/sourcekit-lsp/uriConverters";
 
 /// Check that decoding the given URI string and re-encoding it results in the original string and that the decoded Uri
 /// does not cause any assertion failures in `verifyUri`.

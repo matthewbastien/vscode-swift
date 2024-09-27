@@ -13,9 +13,9 @@
 //===----------------------------------------------------------------------===//
 
 import * as vscode from "vscode";
-import * as assert from "assert";
-import { reduceTestItemChildren } from "../../../src/TestExplorer/TestUtils";
-import { TestRunProxy } from "../../../src/TestExplorer/TestRunner";
+import assert from "assert";
+import { reduceTestItemChildren } from "../../../src/extension/TestExplorer/TestUtils";
+import { TestRunProxy } from "../../../src/extension/TestExplorer/TestRunner";
 
 /**
  * Given a path in the form TestTarget.Suite.test, reutrns the test item from the TestController

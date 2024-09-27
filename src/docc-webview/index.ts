@@ -12,12 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-import $ from "jquery";
 import debounce from "lodash.debounce";
-import styles from "inline:./styles.css";
 import { WebviewState } from "./WebviewState";
-import { WebviewEvent } from "../../WebviewEvent";
-import { Navigator } from "./navigator";
+import { WebviewEvent } from "../extension/documentation/WebviewEvent";
 
 const vscode = acquireVsCodeApi();
 
@@ -60,11 +57,6 @@ window.webkit = {
         },
     },
 };
-
-$("html").append($(document.createElement("style")).text(styles));
-$("#app").remove();
-const navigator = new Navigator(webviewState);
-$("body").append(navigator.htmlElement);
 
 window.addEventListener("message", message => {
     const event = message.data as WebviewEvent;

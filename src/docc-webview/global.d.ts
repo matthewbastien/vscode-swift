@@ -12,7 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-import { WebviewEvent } from "../../WebviewEvent";
+import { WebviewEvent } from "../extension/documentation/WebviewEvent";
 import type { SerializableWebviewState } from "./WebviewState";
 
 declare global {

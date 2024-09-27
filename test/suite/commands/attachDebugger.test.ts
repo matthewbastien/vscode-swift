@@ -12,11 +12,11 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
-import { getLldbProcess } from "../../../src/debugger/lldb";
-import { SwiftToolchain } from "../../../src/toolchain/toolchain";
-import { WorkspaceContext } from "../../../src/WorkspaceContext";
-import { SwiftOutputChannel } from "../../../src/ui/SwiftOutputChannel";
+import assert from "assert";
+import { getLldbProcess } from "../../../src/extension/debugger/lldb";
+import { SwiftToolchain } from "../../../src/extension/toolchain/toolchain";
+import { WorkspaceContext } from "../../../src/extension/WorkspaceContext";
+import { SwiftOutputChannel } from "../../../src/extension/ui/SwiftOutputChannel";
 
 suite("getLldbProcess Contract Test Suite", () => {
     test("happy path, make sure lldb call returns proper output", async () => {

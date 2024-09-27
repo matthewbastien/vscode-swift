@@ -12,16 +12,16 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
+import assert from "assert";
 import * as vscode from "vscode";
-import { SwiftToolchain } from "../../src/toolchain/toolchain";
+import { SwiftToolchain } from "../../src/extension/toolchain/toolchain";
 import { executeTaskAndWaitForResult, waitForNoRunningTasks } from "../utilities";
-import { WorkspaceContext } from "../../src/WorkspaceContext";
+import { WorkspaceContext } from "../../src/extension/WorkspaceContext";
 import { testAssetWorkspaceFolder, testSwiftTask } from "../fixtures";
-import { createBuildAllTask } from "../../src/tasks/SwiftTaskProvider";
-import { DiagnosticsManager } from "../../src/DiagnosticsManager";
-import { FolderContext } from "../../src/FolderContext";
-import { Version } from "../../src/utilities/version";
+import { createBuildAllTask } from "../../src/extension/tasks/SwiftTaskProvider";
+import { DiagnosticsManager } from "../../src/extension/DiagnosticsManager";
+import { FolderContext } from "../../src/extension/FolderContext";
+import { Version } from "../../src/extension/utilities/version";
 import { folderContextPromise, globalWorkspaceContextPromise } from "./extension.test";
 
 const waitForDiagnostics = (uris: vscode.Uri[], allowEmpty: boolean = true) =>

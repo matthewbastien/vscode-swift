@@ -13,14 +13,14 @@
 //===----------------------------------------------------------------------===//
 
 import * as vscode from "vscode";
-import * as assert from "assert";
-import { WorkspaceContext } from "../../../src/WorkspaceContext";
+import assert from "assert";
+import { WorkspaceContext } from "../../../src/extension/WorkspaceContext";
 import { globalWorkspaceContextPromise } from "../extension.test";
-import { SwiftTaskProvider, createSwiftTask } from "../../../src/tasks/SwiftTaskProvider";
-import { SwiftToolchain } from "../../../src/toolchain/toolchain";
-import { SwiftExecution } from "../../../src/tasks/SwiftExecution";
+import { SwiftTaskProvider, createSwiftTask } from "../../../src/extension/tasks/SwiftTaskProvider";
+import { SwiftToolchain } from "../../../src/extension/toolchain/toolchain";
+import { SwiftExecution } from "../../../src/extension/tasks/SwiftExecution";
 import { executeTaskAndWaitForResult, waitForNoRunningTasks } from "../../utilities";
-import { Version } from "../../../src/utilities/version";
+import { Version } from "../../../src/extension/utilities/version";
 
 suite("SwiftTaskProvider Test Suite", () => {
     let workspaceContext: WorkspaceContext;

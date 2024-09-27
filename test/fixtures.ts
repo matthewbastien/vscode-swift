@@ -14,10 +14,10 @@
 
 import * as vscode from "vscode";
 import * as path from "path";
-import { SwiftProcess } from "../src/tasks/SwiftProcess";
-import { SwiftExecution } from "../src/tasks/SwiftExecution";
-import { SwiftTask, createSwiftTask } from "../src/tasks/SwiftTaskProvider";
-import { SwiftToolchain } from "../src/toolchain/toolchain";
+import { SwiftProcess } from "../src/extension/tasks/SwiftProcess";
+import { SwiftExecution } from "../src/extension/tasks/SwiftExecution";
+import { SwiftTask, createSwiftTask } from "../src/extension/tasks/SwiftTaskProvider";
+import { SwiftToolchain } from "../src/extension/toolchain/toolchain";
 
 /** Workspace folder class */
 class TestWorkspaceFolder implements vscode.WorkspaceFolder {

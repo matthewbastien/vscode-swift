@@ -13,13 +13,13 @@
 //===----------------------------------------------------------------------===//
 
 import * as vscode from "vscode";
-import * as assert from "assert";
+import assert from "assert";
 import * as swiftExtension from "../../src/extension";
-import { WorkspaceContext } from "../../src/WorkspaceContext";
-import { getBuildAllTask } from "../../src/tasks/SwiftTaskProvider";
-import { SwiftExecution } from "../../src/tasks/SwiftExecution";
+import { WorkspaceContext } from "../../src/extension/WorkspaceContext";
+import { getBuildAllTask } from "../../src/extension/tasks/SwiftTaskProvider";
+import { SwiftExecution } from "../../src/extension/tasks/SwiftExecution";
 import { testAssetUri } from "../fixtures";
-import { FolderContext } from "../../src/FolderContext";
+import { FolderContext } from "../../src/extension/FolderContext";
 
 export const rootWorkspaceFolder = vscode.workspace.workspaceFolders?.values().next().value;
 export const globalWorkspaceContextPromise = new Promise<WorkspaceContext>(resolve => {

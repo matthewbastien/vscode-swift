@@ -12,14 +12,14 @@
 //
 //===----------------------------------------------------------------------===//
 
-// import * as assert from "assert";
+// import assert from "assert";
 import * as vscode from "vscode";
 import * as path from "path";
 import { anything, objectContaining, spy, verify, when } from "ts-mockito";
 import { mockNamespace } from "../../unit-tests/MockUtils";
-import { openPackage } from "../../../src/commands/openPackage";
-import { Version } from "../../../src/utilities/version";
-import * as fs from "../../../src/utilities/filesystem";
+import { openPackage } from "../../../src/extension/commands/openPackage";
+import { Version } from "../../../src/extension/utilities/version";
+import * as fs from "../../../src/extension/utilities/filesystem";
 
 suite("OpenPackage Command Test Suite", () => {
     const workspaceMock = mockNamespace(vscode, "workspace");

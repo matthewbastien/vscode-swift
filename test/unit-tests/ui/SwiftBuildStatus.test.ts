@@ -21,13 +21,13 @@ import {
     verify,
     when,
 } from "ts-mockito";
-import configuration from "../../../src/configuration";
 import * as vscode from "vscode";
+import configuration from "../../../src/extension/configuration";
 import { eventListenerMock, mockValue, mockNamespace } from "../MockUtils";
-import { SwiftExecution } from "../../../src/tasks/SwiftExecution";
+import { SwiftExecution } from "../../../src/extension/tasks/SwiftExecution";
 import { TestSwiftProcess } from "../../fixtures";
-import { StatusItem } from "../../../src/ui/StatusItem";
-import { SwiftBuildStatus } from "../../../src/ui/SwiftBuildStatus";
+import { StatusItem } from "../../../src/extension/ui/StatusItem";
+import { SwiftBuildStatus } from "../../../src/extension/ui/SwiftBuildStatus";
 
 suite("SwiftBuildStatus Unit Test Suite", async function () {
     const windowMock = mockNamespace(vscode, "window");

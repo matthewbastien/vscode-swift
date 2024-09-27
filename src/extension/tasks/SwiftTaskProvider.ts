@@ -20,7 +20,7 @@ import configuration, { ShowBuildStatusOptions } from "../configuration";
 import { swiftRuntimeEnv } from "../utilities/utilities";
 import { Version } from "../utilities/version";
 import { SwiftToolchain } from "../toolchain/toolchain";
-import { SwiftExecution } from "../tasks/SwiftExecution";
+import { SwiftExecution } from "./SwiftExecution";
 import { resolveTaskCwd } from "../utilities/tasks";
 import { BuildConfigurationFactory } from "../debugger/buildConfig";
 

@@ -13,10 +13,14 @@
 //===----------------------------------------------------------------------===//
 
 import * as vscode from "vscode";
-import * as assert from "assert";
+import assert from "assert";
 import { testAssetPath } from "../../fixtures";
-import { WorkspaceContext } from "../../../src/WorkspaceContext";
-import { SwiftExecOperation, TaskOperation, TaskQueue } from "../../../src/tasks/TaskQueue";
+import { WorkspaceContext } from "../../../src/extension/WorkspaceContext";
+import {
+    SwiftExecOperation,
+    TaskOperation,
+    TaskQueue,
+} from "../../../src/extension/tasks/TaskQueue";
 import { globalWorkspaceContextPromise } from "../extension.test";
 import { waitForNoRunningTasks } from "../../utilities";
 

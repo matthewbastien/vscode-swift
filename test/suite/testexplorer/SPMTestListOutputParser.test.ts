@@ -12,9 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
-import { parseTestsFromSwiftTestListOutput } from "../../../src/TestExplorer/SPMTestDiscovery";
-import { TestClass } from "../../../src/TestExplorer/TestDiscovery";
+import assert from "assert";
+import { parseTestsFromSwiftTestListOutput } from "../../../src/extension/TestExplorer/SPMTestDiscovery";
+import { TestClass } from "../../../src/extension/TestExplorer/TestDiscovery";
 
 suite("SPMTestListOutputParser Suite", () => {
     const basicXCTest: TestClass = {

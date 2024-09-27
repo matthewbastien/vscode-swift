@@ -12,7 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-import { DocCElement, DocCIndex } from "../../WebviewEvent";
+import { DocCElement, DocCIndex } from "../extension/documentation/WebviewEvent";
 import { Event, EventEmitter } from "./EventEmitter";
 
 export interface HistoryItem {

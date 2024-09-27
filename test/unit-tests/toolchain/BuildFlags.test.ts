@@ -12,12 +12,12 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
-import { DarwinCompatibleTarget, SwiftToolchain } from "../../../src/toolchain/toolchain";
-import { ArgumentFilter, BuildFlags } from "../../../src/toolchain/BuildFlags";
-import { Version } from "../../../src/utilities/version";
+import assert from "assert";
+import { DarwinCompatibleTarget, SwiftToolchain } from "../../../src/extension/toolchain/toolchain";
+import { ArgumentFilter, BuildFlags } from "../../../src/extension/toolchain/BuildFlags";
+import { Version } from "../../../src/extension/utilities/version";
 import { instance, mock, when } from "ts-mockito";
-import configuration from "../../../src/configuration";
+import configuration from "../../../src/extension/configuration";
 import { mockValue } from "../MockUtils";
 
 suite("BuildFlags Test Suite", () => {

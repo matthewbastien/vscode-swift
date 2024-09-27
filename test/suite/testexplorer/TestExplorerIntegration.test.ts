@@ -13,12 +13,12 @@
 //===----------------------------------------------------------------------===//
 
 import * as vscode from "vscode";
-import * as assert from "assert";
+import assert from "assert";
 import { beforeEach } from "mocha";
 import { when, anything } from "ts-mockito";
 import { testAssetUri } from "../../fixtures";
 import { globalWorkspaceContextPromise } from "../extension.test";
-import { TestExplorer } from "../../../src/TestExplorer/TestExplorer";
+import { TestExplorer } from "../../../src/extension/TestExplorer/TestExplorer";
 import {
     assertContains,
     assertTestControllerHierarchy,
@@ -27,15 +27,15 @@ import {
     getTestItem,
     syncPromise,
 } from "./utilities";
-import { WorkspaceContext } from "../../../src/WorkspaceContext";
-import { TestRunProxy } from "../../../src/TestExplorer/TestRunner";
-import { Version } from "../../../src/utilities/version";
-import { TestKind } from "../../../src/TestExplorer/TestKind";
+import { WorkspaceContext } from "../../../src/extension/WorkspaceContext";
+import { TestRunProxy } from "../../../src/extension/TestExplorer/TestRunner";
+import { Version } from "../../../src/extension/utilities/version";
+import { TestKind } from "../../../src/extension/TestExplorer/TestKind";
 import { mockNamespace } from "../../unit-tests/MockUtils";
 import {
     MessageRenderer,
     TestSymbol,
-} from "../../../src/TestExplorer/TestParsers/SwiftTestingOutputParser";
+} from "../../../src/extension/TestExplorer/TestParsers/SwiftTestingOutputParser";
 
 suite("Test Explorer Suite", function () {
     const MAX_TEST_RUN_TIME_MINUTES = 5;

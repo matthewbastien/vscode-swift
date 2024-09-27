@@ -12,8 +12,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
-import { Version } from "../../../src/utilities/version";
+import assert from "assert";
+import { Version } from "../../../src/extension/utilities/version";
 
 suite("Version Suite", () => {
     suite("fromString", () => {

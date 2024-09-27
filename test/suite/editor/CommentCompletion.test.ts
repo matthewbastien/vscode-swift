@@ -12,9 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
+import assert from "assert";
 import * as vscode from "vscode";
-import { CommentCompletionProviders } from "../../../src/editor/CommentCompletion";
+import { CommentCompletionProviders } from "../../../src/extension/editor/CommentCompletion";
 
 suite("CommentCompletion Test Suite", () => {
     let document: vscode.TextDocument | undefined;

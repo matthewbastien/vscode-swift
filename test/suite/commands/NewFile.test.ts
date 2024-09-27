@@ -13,13 +13,13 @@
 //===----------------------------------------------------------------------===//
 
 import * as vscode from "vscode";
-import * as assert from "assert";
+import assert from "assert";
 import * as path from "path";
 import { anything, deepEqual, verify, when } from "ts-mockito";
-import { newSwiftFile } from "../../../src/commands/newFile";
+import { newSwiftFile } from "../../../src/extension/commands/newFile";
 import { mockNamespace } from "../../unit-tests/MockUtils";
-import { TemporaryFolder } from "../../../src/utilities/tempFolder";
-import { fileExists } from "../../../src/utilities/filesystem";
+import { TemporaryFolder } from "../../../src/extension/utilities/tempFolder";
+import { fileExists } from "../../../src/extension/utilities/filesystem";
 
 suite("NewFile Command Test Suite", () => {
     const workspaceMock = mockNamespace(vscode, "workspace");

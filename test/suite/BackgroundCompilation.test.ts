@@ -12,9 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
+import assert from "assert";
 import * as vscode from "vscode";
-import { WorkspaceContext } from "../../src/WorkspaceContext";
+import { WorkspaceContext } from "../../src/extension/WorkspaceContext";
 import { globalWorkspaceContextPromise } from "./extension.test";
 import { testAssetUri } from "../fixtures";
 import { waitForNoRunningTasks } from "../utilities";

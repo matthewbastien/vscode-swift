@@ -12,7 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
+import assert from "assert";
 import * as Stream from "stream";
 import {
     execFileStreamOutput,
@@ -23,7 +23,7 @@ import {
     regexEscapedString,
     hashString,
     getErrorDescription,
-} from "../../../src/utilities/utilities";
+} from "../../../src/extension/utilities/utilities";
 
 suite("Utilities Test Suite", () => {
     test("execFileStreamOutput", async () => {

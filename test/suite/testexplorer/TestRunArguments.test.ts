@@ -13,9 +13,9 @@
 //===----------------------------------------------------------------------===//
 
 import * as vscode from "vscode";
-import * as assert from "assert";
+import assert from "assert";
 import { beforeEach } from "mocha";
-import { TestRunArguments } from "../../../src/TestExplorer/TestRunArguments";
+import { TestRunArguments } from "../../../src/extension/TestExplorer/TestRunArguments";
 
 suite("TestRunArguments Suite", () => {
     let controller: vscode.TestController;

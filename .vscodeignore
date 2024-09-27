@@ -8,4 +8,5 @@
 !dist/**
 !images/**
 !snippets/**
+!assets/swift-docc-render/**
 !assets/icon-font.woff

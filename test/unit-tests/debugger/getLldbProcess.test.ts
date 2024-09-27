@@ -12,14 +12,14 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
-import * as util from "../../../src/utilities/utilities";
+import assert from "assert";
+import * as util from "../../../src/extension/utilities/utilities";
 import * as vscode from "vscode";
-import { getLldbProcess } from "../../../src/debugger/lldb";
+import { getLldbProcess } from "../../../src/extension/debugger/lldb";
 import { mockNamespace } from "../MockUtils";
 import { mock, instance, when, spy, verify, anyString, anything } from "ts-mockito";
-import { SwiftToolchain } from "../../../src/toolchain/toolchain";
-import { WorkspaceContext } from "../../../src/WorkspaceContext";
+import { SwiftToolchain } from "../../../src/extension/toolchain/toolchain";
+import { WorkspaceContext } from "../../../src/extension/WorkspaceContext";
 
 suite("getLldbProcess Unit Test Suite", () => {
     const utilSpy = spy(util);

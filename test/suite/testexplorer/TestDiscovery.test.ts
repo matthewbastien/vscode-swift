@@ -12,17 +12,17 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
+import assert from "assert";
 import * as vscode from "vscode";
 import { beforeEach } from "mocha";
 import {
     TestClass,
     updateTests,
     updateTestsFromClasses,
-} from "../../../src/TestExplorer/TestDiscovery";
-import { reduceTestItemChildren } from "../../../src/TestExplorer/TestUtils";
-import { SwiftPackage, Target, TargetType } from "../../../src/SwiftPackage";
-import { SwiftToolchain } from "../../../src/toolchain/toolchain";
+} from "../../../src/extension/TestExplorer/TestDiscovery";
+import { reduceTestItemChildren } from "../../../src/extension/TestExplorer/TestUtils";
+import { SwiftPackage, Target, TargetType } from "../../../src/extension/SwiftPackage";
+import { SwiftToolchain } from "../../../src/extension/toolchain/toolchain";
 
 suite("TestDiscovery Suite", () => {
     let testController: vscode.TestController;

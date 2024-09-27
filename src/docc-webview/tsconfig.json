@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"module": "commonjs",
 		"target": "ES2021",
-		"outDir": "out/documentation",
+		"outDir": "../../out/src/docc-webview",
 		"lib": [
       		"DOM",
 			"ES2022"
@@ -13,8 +13,7 @@
 		"esModuleInterop": true,
 	},
 	"include": [
-		"src",
-		"../WebviewEvent.ts",
+		"./**/*.ts"
 	],
 }
 

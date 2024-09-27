@@ -13,8 +13,8 @@
 //===----------------------------------------------------------------------===//
 
 import * as vscode from "vscode";
-import * as lldb from "../../../src/debugger/lldb";
-import { attachDebugger } from "../../../src/commands/attachDebugger";
+import * as lldb from "../../../src/extension/debugger/lldb";
+import { attachDebugger } from "../../../src/extension/commands/attachDebugger";
 import { mockNamespace } from "../MockUtils";
 import {
     mock,
@@ -26,9 +26,9 @@ import {
     deepEqual,
     objectContaining,
 } from "ts-mockito";
-import { SwiftToolchain } from "../../../src/toolchain/toolchain";
-import { WorkspaceContext } from "../../../src/WorkspaceContext";
-import { registerLLDBDebugAdapter } from "../../../src/debugger/debugAdapterFactory";
+import { SwiftToolchain } from "../../../src/extension/toolchain/toolchain";
+import { WorkspaceContext } from "../../../src/extension/WorkspaceContext";
+import { registerLLDBDebugAdapter } from "../../../src/extension/debugger/debugAdapterFactory";
 
 suite("attachDebugger Unit Test Suite", () => {
     const lldbSpy = spy(lldb);

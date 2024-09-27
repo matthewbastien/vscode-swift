@@ -12,14 +12,14 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
+import assert from "assert";
 import {
     darwinTestRegex,
     nonDarwinTestRegex,
     XCTestOutputParser,
-} from "../../../src/TestExplorer/TestParsers/XCTestOutputParser";
+} from "../../../src/extension/TestExplorer/TestParsers/XCTestOutputParser";
 import { TestRunState, TestStatus } from "./MockTestRunState";
-import { sourceLocationToVSCodeLocation } from "../../../src/utilities/utilities";
+import { sourceLocationToVSCodeLocation } from "../../../src/extension/utilities/utilities";
 
 suite("XCTestOutputParser Suite", () => {
     const inputToTestOutput = (input: string) =>

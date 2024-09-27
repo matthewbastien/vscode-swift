@@ -12,16 +12,16 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
+import assert from "assert";
 import * as vscode from "vscode";
-import * as fs from "../../../src/utilities/filesystem";
-import { DebugAdapter } from "../../../src/debugger/debugAdapter";
+import * as fs from "../../../src/extension/utilities/filesystem";
+import { DebugAdapter } from "../../../src/extension/debugger/debugAdapter";
 import { mockNamespace } from "../MockUtils";
 import { mock, instance, when, spy, verify, anyString, anything } from "ts-mockito";
-import { SwiftToolchain } from "../../../src/toolchain/toolchain";
-import { WorkspaceContext } from "../../../src/WorkspaceContext";
-import { SwiftOutputChannel } from "../../../src/ui/SwiftOutputChannel";
-import { Version } from "../../../src/utilities/version";
+import { SwiftToolchain } from "../../../src/extension/toolchain/toolchain";
+import { WorkspaceContext } from "../../../src/extension/WorkspaceContext";
+import { SwiftOutputChannel } from "../../../src/extension/ui/SwiftOutputChannel";
+import { Version } from "../../../src/extension/utilities/version";
 
 suite("verifyDebugAdapterExists false return Tests", () => {
     const mockContext = mock(WorkspaceContext);

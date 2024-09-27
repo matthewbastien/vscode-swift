@@ -1,51 +1,86 @@
 // See https://go.microsoft.com/fwlink/?LinkId=733558
 // for the documentation about the tasks.json format
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"label": "build",
-			"dependsOn": [
-				"build-extension",
-				"build-documentation"
-			]
-		},
-		{
-			"label": "build-extension",
-			"type": "npm",
-			"script": "esbuild-watch",
-			"problemMatcher": "$esbuild-watch",
-			"isBackground": true,
-			"presentation": {
-				"reveal": "never"
-			},
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-		{
-			"label": "build-documentation",
-			"type": "npm",
-			"script": "esbuild-documentation-watch",
-			"problemMatcher": "$esbuild-watch",
-			"isBackground": true,
-			"presentation": {
-				"reveal": "never"
-			},
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-		{
-			"label": "compile-tests",
-			"type": "npm",
-			"script": "compile-tests",
-			"problemMatcher": "$tsc",
-			"presentation": {
-				"reveal": "never"
-			}
-		}
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "dependsOn": ["build-extension", "build-docc-webview", "build-swift-docc-render"]
+    },
+    {
+      "label": "build-extension",
+      "type": "npm",
+      "script": "esbuild-extension-watch",
+      "problemMatcher": "$esbuild-watch",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "build-docc-webview",
+      "type": "npm",
+      "script": "esbuild-docc-webview-watch",
+      "problemMatcher": "$esbuild-watch",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "build-swift-docc-render",
+      "type": "npm",
+      "script": "watch-swift-docc-render",
+      "problemMatcher": [
+        {
+          "owner": "vue-cli",
+          "fileLocation": "absolute",
+          "source": "vue-cli-service",
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "Starting type checking service",
+            "endsPattern": " DONE\\s+Build complete.*$"
+          },
+          "pattern": [
+            {
+              "regexp": "^(ERROR|WARNING) in (.*)\\(.*$",
+              "severity": 1,
+              "file": 2
+            },
+            {
+              "regexp": "^([0-9]+):([0-9]+) ([\\s\\S]*)$",
+              "line": 1,
+              "column": 2,
+              "message": 3
+            }
+          ]
+        }
+      ],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "compile-tests",
+      "type": "npm",
+      "script": "compile-tests",
+      "problemMatcher": "$tsc",
+      "presentation": {
+        "reveal": "never"
+      }
+    }
+  ]
 }

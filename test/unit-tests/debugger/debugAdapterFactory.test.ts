@@ -12,12 +12,12 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
-import { DebugAdapter } from "../../../src/debugger/debugAdapter";
-import { LLDBDebugConfigurationProvider } from "../../../src/debugger/debugAdapterFactory";
-import { Version } from "../../../src/utilities/version";
+import assert from "assert";
+import { DebugAdapter } from "../../../src/extension/debugger/debugAdapter";
+import { LLDBDebugConfigurationProvider } from "../../../src/extension/debugger/debugAdapterFactory";
+import { Version } from "../../../src/extension/utilities/version";
 import { mockNamespace } from "../MockUtils";
-import configuration from "../../../src/configuration";
+import configuration from "../../../src/extension/configuration";
 import { when } from "ts-mockito";
 
 suite("Debug Adapter Factory Test Suite", () => {

@@ -12,8 +12,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
-import { SwiftOutputChannel } from "../../../src/ui/SwiftOutputChannel";
+import assert from "assert";
+import { SwiftOutputChannel } from "../../../src/extension/ui/SwiftOutputChannel";
 
 suite("SwiftOutputChannel", function () {
     let channel: SwiftOutputChannel;

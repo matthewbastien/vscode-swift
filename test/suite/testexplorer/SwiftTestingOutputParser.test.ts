@@ -12,7 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-import * as assert from "assert";
+import assert from "assert";
 import * as vscode from "vscode";
 import { beforeEach } from "mocha";
 import {
@@ -24,7 +24,7 @@ import {
     SourceLocation,
     TestSymbol,
     MessageRenderer,
-} from "../../../src/TestExplorer/TestParsers/SwiftTestingOutputParser";
+} from "../../../src/extension/TestExplorer/TestParsers/SwiftTestingOutputParser";
 import { TestRunState, TestStatus } from "./MockTestRunState";
 import { Readable } from "stream";
 

@@ -18,7 +18,7 @@ import { WorkspaceContext } from "../WorkspaceContext";
 import { PackagePlugin } from "../SwiftPackage";
 import configuration from "../configuration";
 import { swiftRuntimeEnv } from "../utilities/utilities";
-import { SwiftExecution } from "../tasks/SwiftExecution";
+import { SwiftExecution } from "./SwiftExecution";
 import { resolveTaskCwd } from "../utilities/tasks";
 
 // Interface class for defining task configuration
