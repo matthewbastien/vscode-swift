@@ -1268,8 +1268,8 @@
   "scripts": {
     "vscode:prepublish": "npm run bundle",
     "bundle": "del-cli ./dist && esbuild ./src/extension.ts --bundle --outfile=dist/src/extension.js --external:vscode --format=cjs --platform=node --target=node18 --minify --sourcemap",
-    "compile": "del-cli ./dist && tsc",
-    "watch": "del-cli ./dist && tsc --watch",
+    "compile": "tsc --build",
+    "watch": "tsc --build --watch",
     "lint": "eslint ./ --ext ts && tsc --noEmit",
     "format": "prettier --check .",
     "pretest": "npm run compile-tests",
