@@ -1,10 +1,11 @@
-out
-dist
-coverage
-test-results
 node_modules
 default.profraw
 *.vsix
 .vscode-test
 .build
-assets/test/**/Package.resolved
+
+/assets/swift-docc-render/
+/assets/test/**/Package.resolved
+/coverage/
+/dist/
+/test-results/
