@@ -75,6 +75,11 @@
     ],
     "commands": [
       {
+        "command": "swift.previewDocumentation",
+        "title": "Preview Documentation",
+        "category": "Swift"
+      },
+      {
         "command": "swift.createNewProject",
         "title": "Create New Project...",
         "category": "Swift"
@@ -656,6 +661,10 @@
         }
       ],
       "commandPalette": [
+        {
+          "command": "swift.previewDocumentation",
+          "when": "swift.hasPackage"
+        },
         {
           "command": "swift.createNewProject",
           "when": "!swift.isActivated || swift.createNewProjectAvailable"
@@ -1267,11 +1276,15 @@
   ],
   "scripts": {
     "vscode:prepublish": "npm run compile-swift-docc-render && npm run bundle",
-    "bundle": "del-cli ./dist && esbuild ./src/extension.ts --bundle --outfile=dist/src/extension.js --external:vscode --format=cjs --platform=node --target=node18 --minify --sourcemap",
+    "bundle": "npm run bundle-extension && npm run bundle-documentation-webview",
+    "bundle-extension": "del-cli ./dist && esbuild ./src/extension.ts --bundle --outfile=dist/src/extension.js --external:vscode --format=cjs --platform=node --target=node18 --minify --sourcemap",
+    "bundle-documentation-webview": "npm run compile-swift-docc-render -- --minify",
     "compile": "tsc --build",
     "watch": "tsc --build --watch",
     "compile-swift-docc-render": "del-cli ./assets/swift-docc-render && cd swift-docc-render && npm ci && cross-env VUE_APP_TARGET=ide npx vue-cli-service build --mode production --dest ../assets/swift-docc-render",
     "watch-swift-docc-render": "npm run compile-swift-docc-render -- --watch",
+    "compile-documentation-webview": "del-cli ./assets/documentation-webview && esbuild ./src/documentation/webview/webview.ts --bundle --outfile=assets/documentation-webview/index.js --format=cjs --sourcemap",
+    "watch-documentation-webview": "npm run compile-documentation-webview -- --watch",
     "lint": "eslint ./ --ext ts && tsc --noEmit",
     "format": "prettier --check .",
     "pretest": "npm run compile-tests",
@@ -1295,6 +1308,7 @@
     "@types/chai-subset": "^1.3.5",
     "@types/glob": "^7.1.6",
     "@types/lcov-parse": "^1.0.2",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/mocha": "^10.0.9",
     "@types/mock-fs": "^4.13.4",
     "@types/node": "^18.19.61",
@@ -1316,6 +1330,7 @@
     "esbuild": "^0.24.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "lodash.debounce": "^4.0.8",
     "mocha": "^10.8.1",
     "mock-fs": "^5.4.0",
     "node-pty": "^1.0.0",

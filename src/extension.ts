@@ -50,15 +50,17 @@ export interface Api {
 /**
  * Activate the extension. This is the main entry point.
  */
-export async function activate(context: vscode.ExtensionContext): Promise<Api | undefined> {
+export async function activate(
+    extensionContext: vscode.ExtensionContext
+): Promise<Api | undefined> {
     try {
         console.debug("Activating Swift for Visual Studio Code...");
         const outputChannel = new SwiftOutputChannel("Swift");
 
         checkAndWarnAboutWindowsSymlinks(outputChannel);
 
-        context.subscriptions.push(new SwiftEnvironmentVariablesManager(context));
-        context.subscriptions.push(
+        extensionContext.subscriptions.push(new SwiftEnvironmentVariablesManager(extensionContext));
+        extensionContext.subscriptions.push(
             vscode.window.registerTerminalProfileProvider(
                 "swift.terminalProfile",
                 new SwiftTerminalProfileProvider()
@@ -80,9 +82,9 @@ export async function activate(context: vscode.ExtensionContext): Promise<Api | 
                 return undefined;
             });
 
-        context.subscriptions.push(...commands.registerToolchainCommands(toolchain));
+        extensionContext.subscriptions.push(...commands.registerToolchainCommands(toolchain));
 
-        context.subscriptions.push(
+        extensionContext.subscriptions.push(
             vscode.workspace.onDidChangeConfiguration(event => {
                 // on toolchain config change, reload window
                 if (
@@ -110,9 +112,11 @@ export async function activate(context: vscode.ExtensionContext): Promise<Api | 
         }
 
         const workspaceContext = await WorkspaceContext.create(outputChannel, toolchain);
-        context.subscriptions.push(...commands.register(workspaceContext));
-        context.subscriptions.push(workspaceContext);
-        context.subscriptions.push(registerDebugger(workspaceContext));
+        extensionContext.subscriptions.push(
+            ...commands.register(workspaceContext, extensionContext)
+        );
+        extensionContext.subscriptions.push(workspaceContext);
+        extensionContext.subscriptions.push(registerDebugger(workspaceContext));
 
         // listen for workspace folder changes and active text editor changes
         workspaceContext.setupEventListeners();
@@ -228,7 +232,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<Api | 
         workspaceContext.addWorkspaceFolders();
 
         // Register any disposables for cleanup when the extension deactivates.
-        context.subscriptions.push(
+        extensionContext.subscriptions.push(
             resolvePackageObserver,
             testExplorerObserver,
             swiftModuleDocumentProvider,

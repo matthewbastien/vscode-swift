@@ -4,6 +4,7 @@ default.profraw
 .vscode-test
 .build
 
+/assets/documentation-webview/
 /assets/swift-docc-render/
 /assets/test/**/Package.resolved
 /coverage/
