@@ -111,10 +111,12 @@ export async function activate(
             return;
         }
 
-        const workspaceContext = await WorkspaceContext.create(outputChannel, toolchain);
-        extensionContext.subscriptions.push(
-            ...commands.register(workspaceContext, extensionContext)
+        const workspaceContext = await WorkspaceContext.create(
+            extensionContext,
+            outputChannel,
+            toolchain
         );
+        extensionContext.subscriptions.push(...commands.register(workspaceContext));
         extensionContext.subscriptions.push(workspaceContext);
         extensionContext.subscriptions.push(registerDebugger(workspaceContext));
 
