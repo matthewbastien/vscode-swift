@@ -38,7 +38,7 @@ import { BuildConfigurationFactory } from "../debugger/buildConfig";
 // Interface class for defining task configuration
 interface TaskConfig {
     cwd: vscode.Uri;
-    env?: NodeJS.ProcessEnv;
+    env?: { [key: string]: string };
     scope: vscode.TaskScope | vscode.WorkspaceFolder;
     group?: vscode.TaskGroup;
     presentationOptions?: vscode.TaskPresentationOptions;
@@ -306,9 +306,9 @@ export function createSwiftTask(
     } else {
         cwd = config.cwd.fsPath;
     }*/
-    const env: NodeJS.ProcessEnv = {
+    const env: { [key: string]: string } = {
         ...configuration.swiftEnvironmentVariables,
-        ...swiftRuntimeEnv(),
+        ...(swiftRuntimeEnv() ?? {}),
         ...(config.env ?? {}),
     };
     const presentation = config?.presentationOptions ?? {};
