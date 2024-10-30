@@ -5,7 +5,7 @@
   "tasks": [
     {
       "label": "Build Extension",
-      "dependsOn": ["compile", "compile-documentation-webview", "compile-swift-docc-render"],
+      "dependsOn": ["compile", "compile-documentation-webview"],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -60,43 +60,6 @@
       ],
       "presentation": {
         "reveal": "never"
-      },
-      "isBackground": true,
-      "group": {
-        "kind": "build"
-      }
-    },
-    {
-      "label": "compile-swift-docc-render",
-      "type": "npm",
-      "script": "watch-swift-docc-render",
-      "problemMatcher": [
-        {
-          "owner": "vue-cli",
-          "fileLocation": "absolute",
-          "source": "vue-cli-service",
-          "background": {
-            "activeOnStart": true,
-            "beginsPattern": "Starting type checking service",
-            "endsPattern": " DONE\\s+Build complete.*$"
-          },
-          "pattern": [
-            {
-              "regexp": "^(ERROR|WARNING) in (.*)\\(.*$",
-              "severity": 1,
-              "file": 2
-            },
-            {
-              "regexp": "^([0-9]+):([0-9]+) ([\\s\\S]*)$",
-              "line": 1,
-              "column": 2,
-              "message": 3
-            }
-          ]
-        }
-      ],
-      "presentation": {
-        "reveal": "silent"
       },
       "isBackground": true,
       "group": {

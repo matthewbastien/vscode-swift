@@ -1275,13 +1275,11 @@
     "vadimcn.vscode-lldb"
   ],
   "scripts": {
-    "vscode:prepublish": "npm run bundle-extension && npm run bundle-documentation-webview && npm run compile-swift-docc-render",
+    "vscode:prepublish": "npm run bundle-extension && npm run bundle-documentation-webview",
     "bundle-extension": "del-cli ./dist && esbuild ./src/extension.ts --bundle --outfile=dist/src/extension.js --external:vscode --format=cjs --platform=node --target=node18 --minify --sourcemap",
     "bundle-documentation-webview": "npm run compile-documentation-webview -- --minify",
     "compile": "tsc --build",
     "watch": "tsc --build --watch",
-    "compile-swift-docc-render": "tsx ./scripts/compile_swift_docc_render.ts",
-    "watch-swift-docc-render": "npm run compile-swift-docc-render -- --watch",
     "compile-documentation-webview": "del-cli ./assets/documentation-webview && esbuild ./src/documentation/webview/webview.ts --bundle --outfile=assets/documentation-webview/index.js --format=cjs --sourcemap",
     "watch-documentation-webview": "npm run compile-documentation-webview -- --watch",
     "lint": "eslint ./ --ext ts && tsc --noEmit",
