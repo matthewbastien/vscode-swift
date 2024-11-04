@@ -64,6 +64,10 @@ export function registerToolchainCommands(
     ];
 }
 
+export enum Commands {
+    PREVIEW_DOCUMENTATION = "swift.previewDocumentation",
+}
+
 /**
  * Registers this extension's commands in the given {@link vscode.ExtensionContext context}.
  */
@@ -141,7 +145,7 @@ export function register(ctx: WorkspaceContext): vscode.Disposable[] {
             async () => await runAllTestsParallel(ctx)
         ),
         vscode.commands.registerCommand(
-            "swift.previewDocumentation",
+            Commands.PREVIEW_DOCUMENTATION,
             async () => await ctx.documentation.launchDocumentationPreview()
         ),
     ];
