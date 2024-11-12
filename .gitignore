@@ -3,6 +3,7 @@ default.profraw
 *.vsix
 .vscode-test
 .build
+.DS_Store
 
 /assets/documentation-webview/
 /assets/test/**/Package.resolved
