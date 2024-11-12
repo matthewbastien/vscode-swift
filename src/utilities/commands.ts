@@ -13,5 +13,7 @@
 //===----------------------------------------------------------------------===//
 
 export enum Workbench {
+    ACTION_DEBUG_CONTINUE = "workbench.action.debug.continue",
     ACTION_CLOSEALLEDITORS = "workbench.action.closeAllEditors",
+    ACTION_RELOADWINDOW = "workbench.action.reloadWindow",
 }

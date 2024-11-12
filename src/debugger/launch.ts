@@ -20,6 +20,7 @@ import { stringArrayInEnglish, swiftLibraryPathKey, swiftRuntimeEnv } from "../u
 import { DebugAdapter } from "./debugAdapter";
 import { getFolderAndNameSuffix } from "./buildConfig";
 import configuration from "../configuration";
+import { CI_DISABLE_ASLR } from "./lldb";
 
 /**
  * Edit launch.json based on contents of Swift Package.
@@ -28,9 +29,13 @@ import configuration from "../configuration";
  * @param ctx folder context to create launch configurations for
  * @param yes automatically answer yes to dialogs
  */
-export async function makeDebugConfigurations(ctx: FolderContext, message?: string, yes = false) {
+export async function makeDebugConfigurations(
+    ctx: FolderContext,
+    message?: string,
+    yes = false
+): Promise<boolean> {
     if (!configuration.folder(ctx.workspaceFolder).autoGenerateLaunchConfigurations) {
-        return;
+        return false;
     }
     const wsLaunchSection = vscode.workspace.getConfiguration("launch", ctx.folder);
     const launchConfigs = wsLaunchSection.get<vscode.DebugConfiguration[]>("configurations") || [];
@@ -40,6 +45,8 @@ export async function makeDebugConfigurations(ctx: FolderContext, message?: stri
         "cwd",
         "preLaunchTask",
         "type",
+        "disableASLR",
+        "initCommands",
         `env.${swiftLibraryPathKey()}`,
     ];
     const configUpdates: { index: number; config: vscode.DebugConfiguration }[] = [];
@@ -95,6 +102,7 @@ export async function makeDebugConfigurations(ctx: FolderContext, message?: stri
             vscode.ConfigurationTarget.WorkspaceFolder
         );
     }
+    return true;
 }
 
 // Return debug launch configuration for an executable in the given folder
@@ -123,6 +131,7 @@ function createExecutableConfigurations(ctx: FolderContext): vscode.DebugConfigu
             args: [],
             cwd: folder,
             env: swiftRuntimeEnv(true),
+            ...CI_DISABLE_ASLR,
         };
         return [
             {
@@ -162,6 +171,7 @@ export function createSnippetConfiguration(
         args: [],
         cwd: folder,
         env: swiftRuntimeEnv(true),
+        ...CI_DISABLE_ASLR,
     };
 }
 
@@ -175,15 +185,17 @@ export async function debugLaunchConfig(
     config: vscode.DebugConfiguration,
     options: vscode.DebugSessionOptions = {}
 ) {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<boolean>((resolve, reject) => {
         vscode.debug.startDebugging(workspaceFolder, config, options).then(
             started => {
                 if (started) {
                     const terminateSession = vscode.debug.onDidTerminateDebugSession(async () => {
                         // dispose terminate debug handler
                         terminateSession.dispose();
-                        resolve();
+                        resolve(true);
                     });
+                } else {
+                    resolve(false);
                 }
             },
             reason => {
